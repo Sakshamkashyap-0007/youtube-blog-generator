@@ -124,6 +124,52 @@ function updateStatistics(content) {
     elements.headingCount.textContent = headings;
 }
 
+function copyToClipboard(text, button) {
+    if (!text) {
+        showError("No content to copy");
+        return;
+    }
+
+    // Modern clipboard API (works on HTTPS / localhost)
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text)
+            .then(() => showCopySuccess(button))
+            .catch(() => fallbackCopy(text, button));
+    } else {
+        fallbackCopy(text, button);
+    }
+}
+
+function fallbackCopy(text, button) {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.style.position = "fixed";
+    textarea.style.left = "-9999px";
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+
+    try {
+        document.execCommand("copy");
+        showCopySuccess(button);
+    } catch (err) {
+        showError("Failed to copy to clipboard");
+    }
+
+    document.body.removeChild(textarea);
+}
+
+function showCopySuccess(button) {
+    const originalHTML = button.innerHTML;
+
+    button.innerHTML = "✓ Copied!";
+    button.classList.add("copy-success");
+
+    setTimeout(() => {
+        button.innerHTML = originalHTML;
+        button.classList.remove("copy-success");
+    }, 2000);
+}
 
 async function convertVideo() {
     const url = elements.youtubeUrl.value.trim();
