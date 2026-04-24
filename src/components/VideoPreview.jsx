@@ -3,7 +3,7 @@ export default function VideoPreview({ meta }) {
     <section className="preview-card">
       <img alt="" src={meta.thumbnail} />
       <div>
-        <p className="eyebrow">Video found</p>
+        <p className="card-kicker">Video found</p>
         <h2>{meta.title}</h2>
         <p>{meta.author}</p>
       </div>

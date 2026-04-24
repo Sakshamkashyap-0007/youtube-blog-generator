@@ -2,6 +2,8 @@ import { useRef, useState } from "react";
 import "./App.css";
 
 import BlogOutput from "./components/BlogOutput";
+import Header from "./components/Header";
+import Hero from "./components/Hero";
 import LoadingCard from "./components/LoadingCard";
 import URLInput from "./components/URLInput";
 import VideoPreview from "./components/VideoPreview";
@@ -19,7 +21,7 @@ const STEPS = {
 
 const STEP_MESSAGES = {
   [STEPS.FETCHING_META]: "Fetching video info...",
-  [STEPS.FETCHING_TRANSCRIPT]: "Checking for transcript...",
+  [STEPS.FETCHING_TRANSCRIPT]: "Fetching video transcript...",
   [STEPS.GENERATING]: "Generating blog post with Gemini AI...",
 };
 
@@ -82,26 +84,13 @@ export default function App() {
   }
 
   return (
-    <div className="app-shell">
-      <header className="site-header">
-        <div>
-          <p className="eyebrow">YouTube to Blog</p>
-          <h1>Turn a YouTube video into a ready-to-edit blog post.</h1>
-        </div>
-        <a className="github-link" href="https://github.com/Sakshamkashyap-0007/youtube-blog-generator">
-          GitHub
-        </a>
-      </header>
-
+    <div className="app-wrapper">
+      <Header />
       <main className="main-content">
-        <section className="hero-panel">
-          <div className="hero-copy">
-            <h2>Generate long-form Markdown from any public YouTube video title.</h2>
-            <p>
-              Paste a video link, confirm the preview, and let Gemini draft a structured
-              SEO-friendly article you can copy or save.
-            </p>
-          </div>
+        <div className="container">
+          <Hero />
+
+          <div className="cards-stack">
           <URLInput
             error={error}
             loading={isLoading}
@@ -109,17 +98,22 @@ export default function App() {
             onConvert={handleConvert}
             value={url}
           />
-        </section>
 
-        {videoMeta && <VideoPreview meta={videoMeta} />}
-        {isLoading && <LoadingCard message={STEP_MESSAGES[step]} />}
+            {videoMeta && <VideoPreview meta={videoMeta} />}
+            {isLoading && <LoadingCard message={STEP_MESSAGES[step]} />}
 
-        {step === STEPS.DONE && blogHtml && (
-          <div ref={outputRef}>
-            <BlogOutput html={blogHtml} markdown={blogMarkdown} stats={blogStats} />
+            {step === STEPS.DONE && blogHtml && (
+              <div ref={outputRef}>
+                <BlogOutput html={blogHtml} markdown={blogMarkdown} stats={blogStats} />
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </main>
+
+      <footer className="footer">
+        <p>Built with React + Vite | Gemini AI | Vercel ready</p>
+      </footer>
     </div>
   );
 }

@@ -6,7 +6,10 @@ export default function URLInput({ error, loading, onChange, onConvert, value })
 
   return (
     <form className="url-card" onSubmit={handleSubmit}>
-      <label htmlFor="youtube-url">YouTube URL</label>
+      <div>
+        <p className="card-kicker">Start here</p>
+        <label htmlFor="youtube-url">Paste your YouTube video URL</label>
+      </div>
       <div className="input-row">
         <input
           id="youtube-url"
@@ -16,7 +19,7 @@ export default function URLInput({ error, loading, onChange, onConvert, value })
           value={value}
         />
         <button disabled={loading} type="submit">
-          {loading ? "Working..." : "Generate"}
+          {loading ? "Working..." : "Generate Blog"}
         </button>
       </div>
       {error && <p className="error-text">{error}</p>}

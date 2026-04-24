@@ -17,7 +17,7 @@ export default function BlogOutput({ html, markdown, stats }) {
     <section className="output-card">
       <div className="output-header">
         <div>
-          <p className="eyebrow">Generated blog post</p>
+          <p className="card-kicker">Generated blog post</p>
           <h2>{stats.words} words</h2>
           <p>{stats.minutes} min read</p>
         </div>
